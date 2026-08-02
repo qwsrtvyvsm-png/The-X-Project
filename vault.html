@@ -1,1 +1,106 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Step inside The X Project's vault — a preview of every project taking shape under it, from TemptX to what's coming next.">
+  <meta name="theme-color" content="#0e0e0e">
+  <title>The X Project — The Vault</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500&family=Syne:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="vault.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
+
+  <header class="site-header" id="top">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav__logo" href="index.html" aria-label="The X Project home">
+        <span class="nav__mark" aria-hidden="true"></span>
+        <span class="nav__wordmark">The X Project</span>
+      </a>
+
+      <button
+        class="nav__toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+        aria-label="Open menu"
+      >
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+      </button>
+
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__links">
+          <li><a href="index.html">Home</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="vault" id="vault" aria-labelledby="vault-heading">
+      <div class="vault__intro">
+        <p class="vault__label">The Vault</p>
+        <h1 class="vault__heading" id="vault-heading">One vault. Every project under The X Project.</h1>
+        <p class="vault__lede">
+          TemptX is just the beginning — The X Project is a growing portfolio of platforms. Open the vault to see what's inside.
+        </p>
+      </div>
+
+      <div class="vault__stage" id="vault-stage" data-state="locked">
+        <div class="vault__lockscreen" id="vault-lockscreen">
+          <div class="vault__glyph" aria-hidden="true">
+            <span class="vault__glyph-ring"></span>
+            <span class="vault__glyph-core"></span>
+          </div>
+          <p class="vault__lockscreen-name">THE-X-PROJECT.vault</p>
+          <p class="vault__lockscreen-meta" id="vault-meta">Loading contents…</p>
+          <button class="btn btn--primary" type="button" id="vault-open-btn">
+            Open the Vault
+          </button>
+          <p class="vault__lockscreen-status" id="vault-status" aria-live="polite" hidden></p>
+        </div>
+
+        <div class="vault__explorer" id="vault-explorer" hidden>
+          <div class="vault__topbar">
+            <ol class="vault__breadcrumb" id="vault-breadcrumb" aria-label="Vault location"></ol>
+            <p class="vault__count" id="vault-count"></p>
+          </div>
+
+          <div class="vault__body">
+            <ul class="vault__list" id="vault-list" role="list" aria-label="Vault contents"></ul>
+
+            <aside class="vault__preview" id="vault-preview" aria-live="polite">
+              <!-- Populated by vault.js -->
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <span class="footer__wordmark">The X Project</span>
+        <p class="footer__tagline">A portfolio of platforms.</p>
+      </div>
+
+      <nav class="footer__nav" aria-label="Footer">
+        <a href="index.html">Home</a>
+      </nav>
+
+      <p class="footer__legal">
+        &copy; <span data-year></span> The X Project. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="vault.js" defer></script>
+</body>
+</html>
