@@ -1,1 +1,388 @@
-PLACEHOLDER
+/* ============================================
+   The Vault — file-explorer style preview
+   ============================================ */
+
+.vault {
+  position: relative;
+  z-index: 1;
+  padding:
+    calc(var(--nav-height) + clamp(3rem, 8vh, 6rem))
+    clamp(1.5rem, 5vw, 4rem)
+    clamp(5.5rem, 13vh, 9rem);
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 0%, rgba(184, 149, 92, 0.05), transparent 60%),
+    linear-gradient(180deg, #0e0e0e 0%, #0a0a0a 60%, #0c0c0c 100%);
+}
+
+.vault__intro {
+  width: 100%;
+  max-width: 46rem;
+  margin: 0 auto clamp(3rem, 7vh, 4.5rem);
+  text-align: center;
+}
+
+.vault__label {
+  margin-bottom: var(--space-4);
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.vault__heading {
+  margin-bottom: clamp(1.25rem, 3vh, 1.75rem);
+  font-family: var(--font-display);
+  font-size: clamp(2.35rem, 5vw, 3.75rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--text);
+}
+
+.vault__lede {
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+.vault__stage {
+  position: relative;
+  width: 100%;
+  max-width: 68rem;
+  min-height: 30rem;
+  margin: 0 auto;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+}
+
+/* ---------- Lockscreen ---------- */
+
+.vault__lockscreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 30rem;
+  padding: clamp(2.5rem, 6vh, 4rem) clamp(1.5rem, 5vw, 3rem);
+  text-align: center;
+  transition:
+    opacity var(--duration) var(--ease),
+    transform var(--duration) var(--ease);
+}
+
+.vault__lockscreen.is-unlocking {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+.vault__glyph {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  margin-bottom: var(--space-3);
+}
+
+.vault__glyph-ring {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(184, 149, 92, 0.35);
+  border-radius: var(--radius-md);
+  transform: rotate(45deg);
+}
+
+.vault__glyph-core {
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 6px var(--gold-whisper);
+}
+
+.vault__lockscreen-name {
+  font-family: var(--font-brand);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+
+.vault__lockscreen-meta {
+  margin-bottom: var(--space-4);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+}
+
+.vault__lockscreen-status {
+  margin-top: var(--space-4);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+}
+
+/* ---------- Explorer ---------- */
+
+.vault__explorer {
+  display: flex;
+  flex-direction: column;
+  min-height: 30rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vault__explorer:not([hidden]) {
+    animation: fade-rise var(--duration) var(--ease-out) both;
+  }
+}
+
+.vault__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) clamp(1.25rem, 3vw, 1.75rem);
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.vault__breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.vault__crumb-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.vault__crumb-item:not(:first-child)::before {
+  content: "/";
+  color: var(--text-faint);
+}
+
+.vault__crumb {
+  max-width: 16rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: transparent;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--duration) var(--ease);
+}
+
+.vault__crumb:hover {
+  color: var(--gold-bright);
+}
+
+.vault__crumb.is-current {
+  color: var(--text);
+  cursor: default;
+}
+
+.vault__count {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+}
+
+.vault__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+}
+
+.vault__list {
+  border-right: 1px solid var(--border-subtle);
+  max-height: 26rem;
+  overflow-y: auto;
+}
+
+.vault__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  padding: 0.9rem clamp(1.25rem, 3vw, 1.75rem);
+  border: none;
+  border-bottom: 1px solid var(--border-subtle);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--duration) var(--ease);
+}
+
+.vault__row:hover,
+.vault__row:focus-visible {
+  background: var(--gold-whisper);
+}
+
+.vault__row-icon {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--text-faint);
+}
+
+.vault__row-icon[data-kind="folder"] {
+  color: var(--gold);
+}
+
+.vault__row-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.vault__row-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.vault__row-name {
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vault__row-kind {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.vault__row-chevron {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  color: var(--text-faint);
+  transition: transform var(--duration) var(--ease);
+}
+
+.vault__row:hover .vault__row-chevron,
+.vault__row:focus-visible .vault__row-chevron {
+  transform: translateX(3px);
+  color: var(--gold-bright);
+}
+
+.vault__preview {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.vault__preview-empty {
+  margin: auto 0;
+  font-size: 0.9rem;
+  color: var(--text-faint);
+}
+
+.vault__preview-icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  color: var(--text-faint);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.vault__preview-icon[data-kind="folder"] {
+  color: var(--gold);
+  border-color: rgba(184, 149, 92, 0.25);
+}
+
+.vault__preview-icon svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.vault__preview-kind {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.vault__preview-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  word-break: break-word;
+}
+
+.vault__preview-desc {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.vault__preview-note {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--text-faint);
+}
+
+.vault__preview-link {
+  margin-top: var(--space-2);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 720px) {
+  .vault__body {
+    grid-template-columns: 1fr;
+  }
+
+  .vault__list {
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+    max-height: 18rem;
+  }
+
+  .vault__preview {
+    min-height: 12rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .vault__topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .vault__row {
+    padding: 0.85rem clamp(1rem, 4vw, 1.5rem);
+  }
+}
