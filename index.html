@@ -1,49 +1,85 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="A simple starter website built with HTML, CSS, and JavaScript."
-    />
-    <title>Simple Site</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="script.js" defer></script>
-  </head>
-  <body>
-    <header class="site-header">
-      <a class="logo" href="#home">Simple Site</a>
-      <nav aria-label="Main navigation">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-        <a href="vault.html">Vault</a>
-      </nav>
-    </header>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The X Project — one vault, every project inside it. TemptX and what's coming next, in one place.">
+  <meta name="theme-color" content="#0e0e0e">
+  <title>The X Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500&family=Syne:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="vault.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
 
-    <main>
-      <section class="hero" id="home">
-        <p class="eyebrow">Welcome</p>
-        <h1>A simple website starter.</h1>
-        <p>Use this space to introduce your site, service, or idea.</p>
-        <button class="button" id="welcome-button" type="button">Get started</button>
-        <p class="message" id="welcome-message" aria-live="polite"></p>
-      </section>
+  <header class="site-header" id="top">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav__logo" href="#top" aria-label="The X Project home">
+        <span class="nav__mark" aria-hidden="true"></span>
+        <span class="nav__wordmark">The X Project</span>
+      </a>
+    </nav>
+  </header>
 
-      <section class="section" id="about">
-        <h2>About</h2>
-        <p>Add a short description of what makes your website useful.</p>
-      </section>
+  <main id="main">
+    <section class="vault" id="vault" aria-labelledby="vault-heading">
+      <div class="vault__intro">
+        <p class="vault__label">The Vault</p>
+        <h1 class="vault__heading" id="vault-heading">One vault. Every project under The X Project.</h1>
+        <p class="vault__lede">
+          TemptX is just the beginning — The X Project is a growing portfolio of platforms. Open the vault to see what's inside.
+        </p>
+      </div>
 
-      <section class="section" id="contact">
-        <h2>Contact</h2>
-        <p>Email: hello@example.com</p>
-      </section>
-    </main>
+      <div class="vault__stage" id="vault-stage" data-state="locked">
+        <div class="vault__lockscreen" id="vault-lockscreen">
+          <div class="vault__glyph" aria-hidden="true">
+            <span class="vault__glyph-ring"></span>
+            <span class="vault__glyph-core"></span>
+          </div>
+          <p class="vault__lockscreen-name">THE-X-PROJECT.vault</p>
+          <p class="vault__lockscreen-meta" id="vault-meta">Loading contents…</p>
+          <button class="btn btn--primary" type="button" id="vault-open-btn">
+            Open the Vault
+          </button>
+          <p class="vault__lockscreen-status" id="vault-status" aria-live="polite" hidden></p>
+        </div>
 
-    <footer class="site-footer">
-      <p>&copy; <span id="year"></span> Simple Site. All rights reserved.</p>
-    </footer>
-  </body>
+        <div class="vault__explorer" id="vault-explorer" hidden>
+          <div class="vault__topbar">
+            <ol class="vault__breadcrumb" id="vault-breadcrumb" aria-label="Vault location"></ol>
+            <p class="vault__count" id="vault-count"></p>
+          </div>
+
+          <div class="vault__body">
+            <ul class="vault__list" id="vault-list" role="list" aria-label="Vault contents"></ul>
+
+            <aside class="vault__preview" id="vault-preview" aria-live="polite">
+              <!-- Populated by vault.js -->
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer__inner footer__inner--simple">
+      <div class="footer__brand">
+        <span class="footer__wordmark">The X Project</span>
+        <p class="footer__tagline">A portfolio of platforms.</p>
+      </div>
+
+      <p class="footer__legal">
+        &copy; <span data-year></span> The X Project. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="vault.js" defer></script>
+</body>
 </html>

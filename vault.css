@@ -137,6 +137,11 @@
   min-height: 30rem;
 }
 
+.vault__lockscreen[hidden],
+.vault__explorer[hidden] {
+  display: none;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .vault__explorer:not([hidden]) {
     animation: fade-rise var(--duration) var(--ease-out) both;
@@ -355,6 +360,12 @@
 
 .vault__preview-link {
   margin-top: var(--space-2);
+}
+
+/* ---------- Homepage footer (no middle nav column) ---------- */
+
+.footer__inner--simple {
+  grid-template-columns: 1fr auto;
 }
 
 /* ---------- Responsive ---------- */
