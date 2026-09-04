@@ -14,7 +14,7 @@ This repo contains the public-facing site for X — The Network.
 
 | Entity | Role |
 |---|---|
-| **X Venture Holdings Pty Ltd** | Parent / legal foundation |
+| **X Venture Holdings** | Parent / legal foundation |
 | **X — The Network** | Public / connective layer (this site) |
 | **X Labs** | Build — software, platforms, reusable IP |
 | **X Enterprise** | Operate — management, commercialisation |
