@@ -1,0 +1,1022 @@
+<title>X — The Network</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  /* ── Tokens ── */
+  :root {
+    --bg:           #08090B;
+    --surface:      #0F1013;
+    --surface-2:    #161719;
+    --border:       #1F2124;
+    --border-mid:   #2A2D32;
+    --text:         #F5F5F5;
+    --text-muted:   #64676F;
+    --text-dim:     #28292D;
+    --accent:       #DFFF47;
+    --accent-dark:  #B8D930;
+    --accent-dim:   #1B2700;
+    --accent-text:  #08090B;
+
+    --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    --font-body:    'IBM Plex Sans', system-ui, sans-serif;
+    --font-mono:    'IBM Plex Mono', 'Courier New', monospace;
+
+    --max:     1140px;
+    --gutter:  clamp(24px, 5vw, 64px);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg:           #F4F4EF;
+      --surface:      #FFFFFF;
+      --surface-2:    #EEEEE9;
+      --border:       #DCDCD6;
+      --border-mid:   #CACAC4;
+      --text:         #0A0A0C;
+      --text-muted:   #64676F;
+      --text-dim:     #C8C8C2;
+      --accent:       #5C8C00;
+      --accent-dark:  #4A7000;
+      --accent-dim:   #EBF5D0;
+      --accent-text:  #FFFFFF;
+    }
+  }
+
+  :root[data-theme="light"] {
+    --bg:           #F4F4EF;
+    --surface:      #FFFFFF;
+    --surface-2:    #EEEEE9;
+    --border:       #DCDCD6;
+    --border-mid:   #CACAC4;
+    --text:         #0A0A0C;
+    --text-muted:   #64676F;
+    --text-dim:     #C8C8C2;
+    --accent:       #5C8C00;
+    --accent-dark:  #4A7000;
+    --accent-dim:   #EBF5D0;
+    --accent-text:  #FFFFFF;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── Nav ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  nav .inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 54px;
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-x {
+    color: var(--accent);
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  @media (max-width: 600px) { .nav-links { display: none; } }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    overflow: hidden;
+    padding: 0 var(--gutter) 72px;
+  }
+
+  .hero-bg-x {
+    position: absolute;
+    right: -8vw;
+    top: 50%;
+    transform: translateY(-52%);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(320px, 52vw, 760px);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--border-mid);
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: var(--max);
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .hero-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-headline {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(64px, 11vw, 148px);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-wrap: balance;
+    max-width: 700px;
+    margin-bottom: 40px;
+  }
+
+  .hero-headline .accent-word {
+    color: var(--accent);
+  }
+
+  .hero-bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: 440px;
+  }
+
+  .hero-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 10px 0;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .btn-ghost:hover { color: var(--text); }
+
+  .hero-scroll {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    writing-mode: vertical-rl;
+    position: absolute;
+    right: var(--gutter);
+    bottom: 72px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  @media (max-width: 480px) { .hero-scroll { display: none; } }
+
+  /* ── Divider ── */
+  hr { border: none; border-top: 1px solid var(--border); }
+
+  /* ── Section ── */
+  .section {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 80px var(--gutter);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(36px, 5vw, 56px);
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ── Network grid ── */
+  .network-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+  }
+
+  @media (max-width: 640px) {
+    .network-grid { grid-template-columns: 1fr; }
+  }
+
+  .node {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 32px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .node:hover { border-color: var(--border-mid); }
+
+  .node-verb {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .node-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(24px, 3vw, 34px);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .node-desc {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text-muted);
+    max-width: 360px;
+  }
+
+  .node-id {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-top: auto;
+    padding-top: 16px;
+  }
+
+  .node.featured {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
+    border-color: var(--border-mid);
+  }
+
+  .node.featured::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .node.featured .node-main { flex: 1; }
+
+  .node.featured .node-badge {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    padding-top: 4px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 2px;
+  }
+
+  .badge-live {
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+
+  .badge-soon {
+    background: var(--surface-2);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+
+  @media (max-width: 640px) {
+    .node.featured { flex-direction: column; gap: 20px; grid-column: auto; }
+    .node.featured .node-badge { align-items: flex-start; }
+  }
+
+  /* ── Ventures / coming ── */
+  .coming-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 2px;
+  }
+
+  @media (max-width: 640px) {
+    .coming-row { grid-template-columns: 1fr; }
+  }
+
+  .coming-node {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px 26px;
+    opacity: 0.5;
+  }
+
+  .coming-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .coming-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  /* ── Pillars ── */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: var(--border);
+  }
+
+  @media (max-width: 640px) {
+    .pillars { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .pillar {
+    background: var(--surface);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pillar-verb {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 42px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .pillar-body {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  /* ── Join / waitlist ── */
+  .join-section {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .join-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 80px var(--gutter);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  @media (max-width: 720px) {
+    .join-inner { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .join-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(40px, 6vw, 72px);
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    line-height: 0.95;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .join-title span { color: var(--accent); }
+
+  .join-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+
+  .join-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  @media (max-width: 480px) {
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .form-input {
+    background: var(--surface-2);
+    border: 1px solid var(--border-mid);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 300;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+  }
+
+  .form-input::placeholder { color: var(--text-dim); }
+  .form-input:focus { border-color: var(--accent); }
+
+  .form-select {
+    background: var(--surface-2);
+    border: 1px solid var(--border-mid);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 300;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364676F' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+
+  .form-select:focus { border-color: var(--accent); }
+
+  .form-submit {
+    background: var(--accent);
+    color: var(--accent-text);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 16px 28px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.15s;
+    margin-top: 4px;
+  }
+
+  .form-submit:hover { background: var(--accent-dark); }
+
+  .form-success {
+    display: none;
+    background: var(--accent-dim);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    padding: 20px 24px;
+    text-align: center;
+  }
+
+  .form-success-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .form-success-body {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* ── Contact ── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  @media (max-width: 720px) {
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .contact-type {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .contact-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .contact-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    margin-top: 8px;
+    transition: opacity 0.15s;
+  }
+
+  .contact-link:hover { opacity: 0.7; }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 40px var(--gutter);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .footer-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 28px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .footer-tagline {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .footer-meta {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* ── Focus ── */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<!-- Nav -->
+<nav>
+  <div class="inner">
+    <a href="#" class="nav-logo">
+      <span class="nav-x">X</span>
+      The Network
+    </a>
+    <ul class="nav-links">
+      <li><a href="#network">Network</a></li>
+      <li><a href="#ventures">Ventures</a></li>
+      <li><a href="#join">Join</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg-x" aria-hidden="true">X</div>
+
+  <div class="hero-content">
+    <div class="hero-tag">X — The Network</div>
+    <h1 class="hero-headline">
+      Build.<br>
+      Operate.<br>
+      <span class="accent-word">Connect.</span>
+    </h1>
+    <div class="hero-bottom">
+      <p class="hero-desc">
+        X is a venture ecosystem that builds, operates and connects businesses, platforms and digital networks — a system designed to compound. Every venture reuses what the last one learned.
+      </p>
+      <div class="hero-cta">
+        <a href="#join" class="btn-primary">Join the Network →</a>
+        <a href="#network" class="btn-ghost">Explore the ecosystem ↓</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true">Scroll</div>
+</section>
+
+<hr>
+
+<!-- Network -->
+<div id="network">
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">The Network</h2>
+      <span class="section-label">Four layers, one ecosystem</span>
+    </div>
+
+    <div class="network-grid">
+
+      <div class="node">
+        <div class="node-verb">Connect</div>
+        <div class="node-name">X — The Network</div>
+        <p class="node-desc">The public-facing ecosystem. Connects X's active divisions, ventures, platforms, users and partners into a single compounding network.</p>
+        <div class="node-id">XTN-001 · Active</div>
+      </div>
+
+      <div class="node">
+        <div class="node-verb">Build</div>
+        <div class="node-name">X Labs</div>
+        <p class="node-desc">The development and creative division. Software, technology, platforms, internal tools, automation and reusable intellectual property — built once, reused across every venture.</p>
+        <div class="node-id">XLB-001 · Active</div>
+      </div>
+
+      <div class="node">
+        <div class="node-verb">Operate</div>
+        <div class="node-name">X Enterprise</div>
+        <p class="node-desc">The operations and execution division. Management, strategy, partnerships, B2B services, commercialisation and scaling — turning ventures into functioning businesses.</p>
+        <div class="node-id">XEN-001 · Active</div>
+      </div>
+
+      <div class="node">
+        <div class="node-verb">Hold</div>
+        <div class="node-name">X Venture Holdings</div>
+        <p class="node-desc">The parent and legal foundation. Ownership, intellectual property, governance and strategic control across the ecosystem.</p>
+        <div class="node-id">XVH-001 · Parent entity</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- Ventures -->
+<div id="ventures">
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Ventures</h2>
+      <span class="section-label">Specialised networks</span>
+    </div>
+
+    <div class="network-grid">
+      <div class="node featured">
+        <div class="node-main">
+          <div class="node-verb">Venture · First network</div>
+          <div class="node-name">TEMPTX Directory</div>
+          <p class="node-desc">The first specialised venture in the X ecosystem. An adult directory and support network connecting adults, businesses, services and resources. The proving ground where X Labs builds and tests the shared infrastructure that will power future ventures.</p>
+          <div class="node-id">TMX-001</div>
+        </div>
+        <div class="node-badge">
+          <span class="badge badge-live">In Development</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="coming-row">
+      <div class="coming-node">
+        <div class="coming-label">Future venture</div>
+        <div class="coming-name">Unnamed</div>
+      </div>
+      <div class="coming-node">
+        <div class="coming-label">Future venture</div>
+        <div class="coming-name">Unnamed</div>
+      </div>
+      <div class="coming-node">
+        <div class="coming-label">Future venture</div>
+        <div class="coming-name">Unnamed</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- Pillars -->
+<div class="pillars">
+  <div class="pillar">
+    <div class="pillar-verb">Build</div>
+    <p class="pillar-body">X Labs creates technology, tools and reusable infrastructure — built once for every venture that follows.</p>
+  </div>
+  <div class="pillar">
+    <div class="pillar-verb">Operate</div>
+    <p class="pillar-body">X Enterprise turns ventures into functioning, managed and commercially viable businesses.</p>
+  </div>
+  <div class="pillar">
+    <div class="pillar-verb">Connect</div>
+    <p class="pillar-body">X — The Network links ventures, users, businesses, partners and resources into one compounding system.</p>
+  </div>
+  <div class="pillar">
+    <div class="pillar-verb">Venture</div>
+    <p class="pillar-body">Each new venture reuses what earlier ventures learned — faster, cheaper, more capable than starting from scratch.</p>
+  </div>
+</div>
+
+<hr>
+
+<!-- Join -->
+<div class="join-section" id="join">
+  <div class="join-inner">
+    <div>
+      <h2 class="join-title">Join the <span>network.</span></h2>
+      <p class="join-desc">Whether you're a business, partner, potential collaborator, or someone who wants to follow what we're building — register your interest and we'll be in touch as ventures go live.</p>
+    </div>
+
+    <div>
+      <form class="join-form" id="joinForm" novalidate>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="form-label" for="firstName">First name</label>
+            <input class="form-input" type="text" id="firstName" name="firstName" placeholder="Hope" autocomplete="given-name">
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="lastName">Last name</label>
+            <input class="form-input" type="text" id="lastName" name="lastName" placeholder="Bellchambers" autocomplete="family-name">
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="email">Email</label>
+          <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email">
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="interest">I'm interested as a</label>
+          <select class="form-select" id="interest" name="interest">
+            <option value="">Select one</option>
+            <option value="partner">Business / Partner</option>
+            <option value="investor">Investor / Backer</option>
+            <option value="talent">Potential team member</option>
+            <option value="user">Future user of a venture</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <button type="submit" class="form-submit">Register Interest →</button>
+      </form>
+
+      <div class="form-success" id="formSuccess">
+        <div class="form-success-title">You're in the network.</div>
+        <p class="form-success-body">We'll be in touch as ventures go live. Watch this space.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- Contact -->
+<div id="contact">
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Contact</h2>
+      <span class="section-label">Get in touch</span>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-type">Partnerships</div>
+        <div class="contact-title">Work with X</div>
+        <p class="contact-desc">B2B partnerships, commercial relationships and strategic opportunities across the X ecosystem.</p>
+        <a href="mailto:partnerships@xventures.com.au" class="contact-link">partnerships@xventures.com.au →</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-type">Investment</div>
+        <div class="contact-title">Back the machine</div>
+        <p class="contact-desc">Interested in investing in X Venture Holdings or its ventures? We're building for the long term.</p>
+        <a href="mailto:invest@xventures.com.au" class="contact-link">invest@xventures.com.au →</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-type">General</div>
+        <div class="contact-title">Everything else</div>
+        <p class="contact-desc">Press, media, general enquiries and anything else — reach the X team directly.</p>
+        <a href="mailto:hello@xventures.com.au" class="contact-link">hello@xventures.com.au →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">X</div>
+      <div class="footer-tagline">Build · Operate · Connect · Venture</div>
+    </div>
+    <div class="footer-meta">
+      X Venture Holdings Pty Ltd<br>
+      One Ecosystem. Build the Machine.
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('joinForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    this.style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  });
+</script>
